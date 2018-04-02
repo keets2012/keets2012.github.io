@@ -28,7 +28,7 @@ CNCF给出了云原生应用的三大特征：
 ![cca](http://ovci9bs39.bkt.clouddn.com/cloud-native-architecutre-mindnode.jpg "云原生所需要的能力和特征")
 
 ### 1.3 The Twelve Factors
-12-Factors经常被直译为12要素，也被称为12原则，12原则由公有云PaaS的先驱Heroku于2012年提出（https://12factor.net/），目的是告诉开发者如何利用云平台提供的便利来开发更具可靠性和扩展性、更加易于维护的云原生应用。具体如下：
+12-Factors经常被直译为12要素，也被称为12原则，12原则由公有云PaaS的先驱Heroku于2012年提出，原文地址为：https://12factor.net/ ，目的是告诉开发者如何利用云平台提供的便利来开发更具可靠性和扩展性、更加易于维护的云原生应用。具体如下：
 
 - 基准代码
 - 显式声明依赖关系

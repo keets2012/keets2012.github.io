@@ -120,7 +120,7 @@ public interface ApplicationEventPublisher {
     void publishEvent(Object var1);
 }
 ```
-实际的执行是委托给，读者有兴趣可以看一下`AbstractApplicationContext`中这部分的逻辑。下面我们具体看一下`ApplicationEventMulticaster`接口中定义的方法。
+读者有兴趣可以看一下`AbstractApplicationContext`中这部分的逻辑。下面我们具体看一下`ApplicationEventMulticaster`接口中定义的方法。
 
 ```java
 public interface ApplicationEventMulticaster {
