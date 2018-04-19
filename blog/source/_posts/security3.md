@@ -225,6 +225,8 @@ public class CustomCheckPermission implements CheckPermissions {
 GitHub：https://github.com/keets2012/Auth-service   
 码云： https://gitee.com/keets/Auth-Service**
 
+### 推荐阅读
+[系列文章：认证鉴权与API权限控制在微服务架构中的设计与实现](http://blueskykong.com/categories/Security/) 
 ---
 ### 参考
 1. [微服务API级权限的技术架构](http://blog.csdn.net/OmniStack/article/details/77881185?locationNum=10&fps=1)

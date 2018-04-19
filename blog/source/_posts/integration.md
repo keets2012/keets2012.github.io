@@ -1,7 +1,7 @@
 ---
 title: 微服务架构中整合网关、权限服务
 date: 2017-12-10
-categories: 微服务
+categories: Security
 tags:
 - zuul
 - OAuth2
@@ -380,11 +380,7 @@ public class CustomerSecurityExpressionRoot extends SecurityExpressionRoot {
 可以优化的地方当然还有很多，整合项目中设计不合理的地方，各位同学可以多多提意见。
 
 #### 推荐阅读
-1. [微服务网关netflix-zuul](http://blueskykong.com/2017/11/13/gateway/)
-2. [认证鉴权与API权限控制在微服务架构中的设计与实现（一）](http://blueskykong.com/2017/10/19/security1/)
-3. [认证鉴权与API权限控制在微服务架构中的设计与实现（二）](http://blueskykong.com/2017/10/22/security2/)
-4. [认证鉴权与API权限控制在微服务架构中的设计与实现（三）](http://blueskykong.com/2017/10/24/security3/)
-5. [认证鉴权与API权限控制在微服务架构中的设计与实现（四）](http://blueskykong.com/2017/10/26/security4/)
+[系列文章：认证鉴权与API权限控制在微服务架构中的设计与实现](http://blueskykong.com/categories/Security/) 
 
 #### 源码
 

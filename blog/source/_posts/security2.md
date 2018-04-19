@@ -396,5 +396,8 @@ GitHub：https://github.com/keets2012/Auth-service
 2. [Re：从零开始的Spring Security OAuth2（二）](https://www.cnkirito.moe/2017/08/09/Re%EF%BC%9A%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84Spring%20Security%20OAuth2%EF%BC%88%E4%BA%8C%EF%BC%89/)
 3. [spring-security-oauth](http://projects.spring.io/spring-security-oauth/docs/oauth2.html)
 
+### 推荐阅读
+[系列文章：认证鉴权与API权限控制在微服务架构中的设计与实现](http://blueskykong.com/categories/Security/) 
+
 ### 相关阅读
 [认证鉴权与API权限控制在微服务架构中的设计与实现（一）](http://blueskykong.com/2017/10/19/security1/)
