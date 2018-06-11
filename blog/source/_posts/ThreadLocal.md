@@ -1,7 +1,7 @@
 ---
 title: 深入ThreadLocal
 date: 2017-9-4 
-categories: java
+categories: Java
 tags:
 - Thread
 - Java

@@ -13,7 +13,7 @@ tags:
 ### 状态模式的组成
 状态模式的类图如下所示：
 
-![](https://images2015.cnblogs.com/blog/653266/201604/653266-20160418152108273-1472856947.png)
+![](http://ovcjgn2x0.bkt.clouddn.com/state-design.png)
 
 包含如下的角色：
 

@@ -1,7 +1,7 @@
 ---
 title: 比较Spring AOP与AspectJ
 date: 2018-1-24 
-categories: java
+categories: Spring
 tags:
 - Spring
 - Java

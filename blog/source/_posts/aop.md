@@ -1,7 +1,7 @@
 ---
 title: 深入理解Spring AOP的动态代理
 date: 2017-12-14 
-categories: java
+categories: Spring
 tags:
 - Spring
 - Java

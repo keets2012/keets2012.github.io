@@ -1,7 +1,7 @@
 ---
 title: Spring中的事件驱动模型（二）
 date: 2018-3-15 
-categories: java
+categories: Spring
 tags:
 - Spring
 - Java
