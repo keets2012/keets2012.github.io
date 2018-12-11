@@ -208,7 +208,7 @@ public class AuthenticationManagerConfig extends GlobalAuthenticationConfigurerA
 ```
 保证数据库中的请求客户端存在授权码的请求授权和具备回调地址，回调地址是用来接受授权码的。
 
-![](http://ovcjgn2x0.bkt.clouddn.com/authority1.png)
+![](../../../../pic/authority1.png)
 
 ### 测试使用
 启动服务，浏览器访问地址`http://localhost:9091/oauth/authorize?response_type=code&client_id=frontend&
@@ -216,11 +216,11 @@ scope=all&redirect_uri=http://localhost:8080`。
 
 重定向到登录界面，引导用户登录：
 
-![](http://ovcjgn2x0.bkt.clouddn.com/authority2.png)
+![](../../../../pic/authority2.png)
 
 登录成功，授权客户端获取授权码。
 
-![](http://ovcjgn2x0.bkt.clouddn.com/authority3.png)
+![](../../../../pic/authority3.png)
 
 授权之后，从回调地址中获取到授权码：
 
@@ -230,9 +230,9 @@ http://localhost:8080/?code=7OglOJ
 
 携带授权码获取对应的token：
 
-![](http://ovcjgn2x0.bkt.clouddn.com/authority4.png)
+![](../../../../pic/authority4.png)
 
-![](http://ovcjgn2x0.bkt.clouddn.com/authority5.png)
+![](../../../../pic/authority5.png)
 
 ## 源码详解
 

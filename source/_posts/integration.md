@@ -15,7 +15,7 @@ date: 2017-12-10 00:00:00
 ## 1. 前文回顾与整合设计
 在[认证鉴权与API权限控制在微服务架构中的设计与实现](http://blueskykong.com/2017/10/19/security1/)系列文章中，讲解了在微服务架构中Auth系统的授权认证和鉴权。在[微服务网关](http://blueskykong.com/2017/11/13/gateway/)中，讲解了基于netflix-zuul组件实现的微服务网关。下面我们看一下这次整合的架构图。
 
-![ms](http://ovcjgn2x0.bkt.clouddn.com/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E6%9D%83%E9%99%90%20%281%29.png "微服务架构权限")
+![ms](../../../../pic/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E6%9D%83%E9%99%90%20%281%29.png "微服务架构权限")
 
 整个流程分为两类：
 
@@ -36,7 +36,7 @@ date: 2017-12-10 00:00:00
 
 绘制的流程图如下：
 
-![gwflow](http://ovcjgn2x0.bkt.clouddn.com/gwflow.jpg "网关路由流程图")
+![gwflow](../../../../pic/gwflow.jpg "网关路由流程图")
 
 ### 2.1 permitAll实现
 对外暴露的接口可以直接访问，这可以依赖配置文件，而配置文件又可以通过配置中心进行动态更新，所以不用担心有hard-code的问题。
@@ -239,7 +239,7 @@ auth服务的整合修改，其实没那么多，之前对于user、role以及pe
 
 根据这些，笔者绘制了一个backend的通用流程图：
 
-![bf](http://ovcjgn2x0.bkt.clouddn.com/backend%E6%B5%81%E7%A8%8B.png "backend流程图")
+![bf](../../../../pic/backend%E6%B5%81%E7%A8%8B.png "backend流程图")
 
 上面的流程图其实已经非常清晰了，首先经过filter过滤器，填充`SecurityContextHolder`的上下文。其次，通过切面来实现注解，是否需要进入切面表达式处理。不需要的话，直接执行接口内的方法；否则解析注解中需要的权限，判断是否有权限执行，有的话继续执行，否则返回403 forbidden。
 

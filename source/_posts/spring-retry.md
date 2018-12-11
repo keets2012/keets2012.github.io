@@ -95,7 +95,7 @@ public class SpringbootRetryApplicationTests {
 ```
 运行的控制台结果如下：
 
-![](http://ovci1ihdy.bkt.clouddn.com/retry-error.jpg)
+![](../../../../pic/retry-error.jpg)
 
 可以看到，三次之后抛出了`IllegalArgumentException`异常。
 
@@ -109,7 +109,7 @@ public int recover(Exception e) {
 }
 ```
 在Service中，加上如上的方法之后，进行测试。
-![](http://ovci1ihdy.bkt.clouddn.com/retry-recover.jpg)
+![](../../../../pic/retry-recover.jpg)
 
 可以看到当三次重试执行完之后，会调用Recovery方法，也不会再次抛出异常。
 

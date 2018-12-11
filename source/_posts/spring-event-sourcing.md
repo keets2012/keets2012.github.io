@@ -16,7 +16,7 @@ abbrlink: 44704
 - 当目标发送改变（发布），观察者（订阅者）就可以接收到改变；
 - 观察者如何处理，目标无需干涉，它们之间的关系是松耦合的。
 
-![event-source](http://ovcjgn2x0.bkt.clouddn.com/event-source.jpg "事件驱动模型")
+![event-source](../../../../pic/event-source.jpg "事件驱动模型")
 
 事件驱动模型的例子很多，如生活中的红绿灯，以及我们在微服务中用到的配置中心，当有配置提交时出发具体的应用实例更新Spring上下文环境。
 
@@ -39,7 +39,7 @@ Spring 默认对 ApplicationEvent 事件提供了如下实现：
 - ContextClosedEvent：ApplicationContext关闭后触发的事件。如web容器关闭时自动会触发Spring容器的关闭，如果是普通java应用，需要调用`ctx.registerShutdownHook()`注册虚拟机关闭时的钩子才行；
 - ContextStartedEvent：ApplicationContext启动后触发的事件；
 
-![eventobject](http://ovcjgn2x0.bkt.clouddn.com/eventobject.png "事件")
+![eventobject](../../../../pic/eventobject.png "事件")
 
 
 ```java
@@ -60,7 +60,7 @@ public abstract class ApplicationEvent extends EventObject {
 事件基类`ApplicationEvent`，所有的具体事件都会继承该抽象事件类。
 #### 事件监听者
 
-![ApplicationListener](http://ovcjgn2x0.bkt.clouddn.com/ApplicationListener.png "事件监听")
+![ApplicationListener](../../../../pic/ApplicationListener.png "事件监听")
 `ApplicationListener`继承自JDK的`EventListener`，JDK要求所有监听器将继承它。
 
 ```java
@@ -107,7 +107,7 @@ Spring也支持直接注解的形式进行事件监听`@EventListener(Event.clas
 
 #### 事件发布
 
-![EventPublisher](http://ovcjgn2x0.bkt.clouddn.com/EventPublisher.png "发布事件")
+![EventPublisher](../../../../pic/EventPublisher.png "发布事件")
 `ApplicationContext`接口继承了`ApplicationEventPublisher`，并在`AbstractApplicationContext`实现了具体代码，实际执行是委托给`ApplicationEventMulticaster`。
 
 ```java

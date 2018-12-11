@@ -54,7 +54,7 @@ date: 2017-10-26 00:00:00
 
 各种过滤器简单标注了作用，在下一节重点讲其中的几个过滤器。注销过滤器排在靠前的位置，我们一起看下`LogoutFilter`的UML类图。
 
-![logoutFilter](http://ovcjgn2x0.bkt.clouddn.com/logout.png "logoutFilter类图")
+![logoutFilter](../../../../pic/logout.png "logoutFilter类图")
 
 类图和我们之前配置时的思路是一致的，`HttpSecurity`创建了`LogoutConfigurer`，我们在这边配置了`LogoutConfigurer`的一些属性。同时`LogoutConfigurer`根据这些属性创建了`LogoutFilter`。
 
@@ -276,7 +276,7 @@ public abstract class AbstractAuthenticationProcessingFilter extends GenericFilt
 
 从上述配置可以看到，在`FilterSecurityInterceptor`的位置注册了`CustomSecurityFilter`，对于匹配到`/oauth/check_token`，则会调用该进入该过滤器。下图为`FilterSecurityInterceptor`的类图，在其中还添加了`CustomSecurityFilter`和相关实现的接口的类，方便读者对比着看。
 
-![FilterSecurityInterceptor](http://ovcjgn2x0.bkt.clouddn.com/filterSecurity.png "FilterSecurityInterceptor类图")
+![FilterSecurityInterceptor](../../../../pic/filterSecurity.png "FilterSecurityInterceptor类图")
 
 `CustomSecurityFilter`是模仿`FilterSecurityInterceptor`实现，继承`AbstractSecurityInterceptor`和实现`Filter`接口。整个过程需要依赖`AuthenticationManager`、`AccessDecisionManager`和`FilterInvocationSecurityMetadataSource`。
 `AuthenticationManager`是认证管理器，实现用户认证的入口；`AccessDecisionManager`是访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源；`FilterInvocationSecurityMetadataSource`是资源源数据定义，即定义某一资源可以被哪些角色访问。   

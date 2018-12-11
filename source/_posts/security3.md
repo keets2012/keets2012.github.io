@@ -12,7 +12,7 @@ date: 2017-10-24 00:00:00
 ## 1. 前文回顾
 在开始讲解这一篇文章之前，先对之前两篇文章进行回忆下。在第一篇 [认证鉴权与API权限控制在微服务架构中的设计与实现（一）](http://blueskykong.com/2017/10/19/security1/)介绍了该项目的背景以及技术调研与最后选型。第二篇[认证鉴权与API权限控制在微服务架构中的设计与实现（二）](http://blueskykong.com/2017/10/22/security2/)画出了简要的登录和校验的流程图，并重点讲解了用户身份的认证与token发放的具体实现。   
 
-![check](http://ovcjgn2x0.bkt.clouddn.com/check.png "身份及API权限校验的流程图")
+![check](../../../../pic/check.png "身份及API权限校验的流程图")
 
 本文重点讲解鉴权，包括两个方面：token合法性以及API级别的操作权限。首先token合法性很容易理解，第二篇文章讲解了获取授权token的一系列流程，token是否是认证服务器颁发的，必然是需要验证的。其次对于API级别的操作权限，将上下文信息不具备操作权限的请求直接拒绝，当然此处是设计token合法性校验在先，其次再对操作权限进行验证，如果前一个验证直接拒绝，通过则进入操作权限验证。
 
@@ -62,7 +62,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 (2). 关联的`HttpSecurity`，与之前的 Spring Security XML中的 "http"元素配置类似，它允许配置基于web安全以针对特定http请求。默认是应用到所有的请求，通过`requestMatcher`可以限定具体URL范围。HttpSecurity类图如下。
 
-![HttpSecurity](http://ovcjgn2x0.bkt.clouddn.com/httpsecurity.png "HttpSecurity类图")
+![HttpSecurity](../../../../pic/httpsecurity.png "HttpSecurity类图")
 
 总的来说：HttpSecurity是SecurityBuilder接口的一个实现类，从名字上我们就可以看出这是一个HTTP安全相关的构建器。当然我们在构建的时候可能需要一些配置，当我们调用HttpSecurity对象的方法时，实际上就是在进行配置。   
 
@@ -71,7 +71,7 @@ authorizeRequests()，formLogin()、httpBasic()这三个方法返回的分别是
 
 (3).关联的`ResourceServerSecurityConfigurer`，为资源服务器添加特殊的配置，默认的适用于很多应用，但是这边的修改至少以resourceId为单位。类图如下。
 
-![ResourceServerSecurityConfigurer](http://ovcjgn2x0.bkt.clouddn.com/resource.png "ResourceServerSecurityConfigurer类图")
+![ResourceServerSecurityConfigurer](../../../../pic/resource.png "ResourceServerSecurityConfigurer类图")
 
 `ResourceServerSecurityConfigurer`创建了OAuth2核心过滤器`OAuth2AuthenticationProcessingFilter`，并为其提供固定了`OAuth2AuthenticationManager`。只有被`OAuth2AuthenticationProcessingFilter`拦截到的oauth2相关请求才被特殊的身份认证器处理。同时设置了TokenExtractor、异常处理实现。
  
@@ -175,7 +175,7 @@ public class JdbcTokenStore implements TokenStore {
 
 `readAccessToken()`检索出该token值的完整信息。上述代码比较简单，涉及到的逻辑也不复杂，此处简单讲解。下图为debug token校验的变量信息，读者可以自己动手操作下，截图仅供参考。
 
-![token](http://ovcjgn2x0.bkt.clouddn.com/checktoken.png "debug token校验")
+![token](../../../../pic/checktoken.png "debug token校验")
 
 至于后面的步骤，`loadAuthentication()`为特定的access token 加载credentials。得到的credentials 与token作为`convertAccessToken()`参数，得到校验token的response。
 

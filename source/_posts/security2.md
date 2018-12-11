@@ -14,13 +14,13 @@ date: 2017-10-22 00:00:00
 
 下图为网关与Auth系统结合的流程图，网关系统的具体实现细节在后面另写文章介绍。（此处流程图的绘制中，笔者使用极简的语言描述，各位同学轻喷😆！）
 
-![login](http://ovcjgn2x0.bkt.clouddn.com/login.png "授权流程图")
+![login](../../../../pic/login.png "授权流程图")
 
 上图展示了系统登录的简单流程，其中的细节有省略，用户信息的合法性校验实际是调用用户系统。大体流程是这样，客户端请求到达网关之后，根据网关识别的请求登录端点，转发到Auth系统，将用户的信息进行校验。
 
 另一方面是对于一般请求的校验。一些不需要权限的公开接口，在网关处配置好，请求到达网关后，匹配了路径将会直接放行。如果需要对该请求进行校验，会将该请求的相关验证信息截取，以及API权限校验所需的上下文信息（笔者项目对于一些操作进行权限前置验证，下一篇章会讲到），调用Auth系统，校验成功后进行路由转发。
 
-![gw](http://ovcjgn2x0.bkt.clouddn.com/gw.jpg "身份及API权限校验的流程图")
+![gw](../../../../pic/gw.jpg "身份及API权限校验的流程图")
 
 
 这篇文章就重点讲解我们在[第一篇](http://blueskykong.com/2017/10/19/security1/)文章中提到的用户身份的认证与token发放。这个也主要包含两个方面：
@@ -51,7 +51,7 @@ date: 2017-10-22 00:00:00
 
 ### 2.2 主要`Authentication`类的类图
 
-![auth](http://ovcjgn2x0.bkt.clouddn.com/oauth.png "AuthorizationServer UML类图")
+![auth](../../../../pic/oauth.png "AuthorizationServer UML类图")
 
 主要的验证方法`authenticate(Authentication authentication)`在接口`AuthenticationManager`中，其实现类有`ProviderManager`，有上图可以看出`ProviderManager`又依赖于`AuthenticationProvider`接口，其定义了一个`List<AuthenticationProvider>`全局变量。笔者这边实现了该接口的实现类`CustomAuthenticationProvider`。自定义一个`provider`，并在`GlobalAuthenticationConfigurerAdapter`中配置好改自定义的校验`provider`，覆写`configure()`方法。
 
@@ -125,11 +125,11 @@ public class TokenEndpoint extends AbstractEndpoint {
 	...
 }
 ```
-![client](http://ovcjgn2x0.bkt.clouddn.com/client.png "endpoint")
+![client](../../../../pic/client.png "endpoint")
 
 上面给代码进行了注释，读者感兴趣可以看看。接口处理的主要流程就是对authentication信息进行检查是否合法，不合法直接抛出异常，然后对请求的GrantType进行处理，根据GrantType，进行password模式的身份验证和token的发放。下面我们来看下`TokenGranter`的类图。
 
-![granter](http://ovcjgn2x0.bkt.clouddn.com/granter.png "TokenGranter")
+![granter](../../../../pic/granter.png "TokenGranter")
 
 可以看出`TokenGranter`的实现类CompositeTokenGranter中有一个`List<TokenGranter>`，对应五种GrantType的实际授权实现。这边涉及到的`getTokenGranter()`，代码也列下：
 

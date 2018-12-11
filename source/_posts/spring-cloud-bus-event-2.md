@@ -13,7 +13,7 @@ abbrlink: 38768
 
 `Spring Cloud Bus`中，事件监听器的定义可以是实现`ApplicationListener`接口，或者是使用`@EventListener`注解的形式。我们看一下事件监听器的类图。
 
-![listener](http://ovcjgn2x0.bkt.clouddn.com/bus-listener.png "监听器")
+![listener](../../../../pic/bus-listener.png "监听器")
 `ApplicationListener`接口实现有两个：刷新监听器`RefreshListener`和环境变更监听器`EnvironmentChangeListener`。
 
 ### RefreshListener   

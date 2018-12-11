@@ -23,6 +23,7 @@
     "ejs": "^2.5.5",
     "hexo": "^3.3.8",
     "hexo-abbrlink": "^2.0.4",
+    "hexo-asset-image": "https://github.com/CodeFalling/hexo-asset-image",
     "hexo-deployer-git": "^0.3.1",
     "hexo-generator-archive": "^0.1.4",
     "hexo-generator-category": "^0.1.3",

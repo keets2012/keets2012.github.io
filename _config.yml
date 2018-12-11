@@ -80,6 +80,11 @@ deploy:
     github: git@github.com:keets2012/keets2012.github.io.git,master
     coding: git@git.coding.net:keets/keets.git,master 
 
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+
 #search
 search:
   path: search.xml

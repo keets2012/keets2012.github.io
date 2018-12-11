@@ -21,7 +21,7 @@ abbrlink: 1802
 ## 事件的订阅与发布
 ### 事件驱动模型
 这部分需要读者首先了解下Spring的事件驱动模型。我们在这边简单介绍下设计的主要概念，帮助大家易于理解后面的内容。   
-![event-source](http://ovcjgn2x0.bkt.clouddn.com/event-source.jpg "事件驱动模型")
+![event-source](../../../../pic/event-source.jpg "事件驱动模型")
 
 Spring的事件驱动模型由三部分组成：
 
@@ -32,7 +32,7 @@ Spring的事件驱动模型由三部分组成：
 ### 事件的定义
 Spring的事件驱动模型的事件定义均继承自`ApplicationEvent`，`Spring Cloud Bus`中有多个事件类，这些事件类都继承了一个重要的抽象类`RemoteApplicationEvent`，我们看一下事件类的类图：
 
-![bus-event](http://ovcjgn2x0.bkt.clouddn.com/bus-event.png "各种事件的定义")
+![bus-event](../../../../pic/bus-event.png "各种事件的定义")
 
 涉及的事件类有：代表了对特定事件确认的事件`AckRemoteApplicationEvent`、环境变更的事件`EnvironmentChangeRemoteApplicationEvent`、刷新事件`RefreshRemoteApplicationEvent`、发送事件 `SentApplicationEvent`、以及未知事件`UnknownRemoteApplicationEvent`。下面我们分别看一下这些事件的定义。
 
