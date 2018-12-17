@@ -112,7 +112,7 @@ webflux支持mvc的注解，是一个非常便利的功能，相比较于RouteFu
 @RestControllerAdvice
 public class CustomExceptionHandler {
     private final Log logger = LogFactory.getLog(getClass());
-    
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(code = HttpStatus.OK)
     public ErrorCode handleCustomException(Exception e) {
@@ -143,9 +143,13 @@ Controller定义对Request的处理逻辑的方式，主要有方面：
 在WebFlux中，请求和响应不再是WebMVC中的ServletRequest和ServletResponse，而是ServerRequest和ServerResponse。后者是在响应式编程中使用的接口，它们提供了对非阻塞和回压特性的支持，以及Http消息体与响应式类型Mono和Flux的转换方法。
 
 ```java
-HandlerFunction<ServerResponse> timeFunction = 
-        request -> ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(
-            Mono.just("Now is " + new SimpleDateFormat("HH:mm:ss").format(new Date())), String.class);
+@Component
+public class TimeHandler {
+    public Mono<ServerResponse> getTime(ServerRequest serverRequest) {
+        String timeType = serverRequest.queryParam("type").get();    
+        //return ...
+    }
+}
 ```
 如上定义了一个`TimeHandler`，根据请求的参数返回当前时间。
 
@@ -169,13 +173,23 @@ public class RouterConfig {
 
     @Bean
     public RouterFunction<ServerResponse> timerRouter() {
-        return route(GET("/time"), req -> timeHandler.getTime(req));  
+        return route(GET("/time"), req -> timeHandler.getTime(req));
     }
 }
 ```
 可以看到访问/time的GET请求，将会由`TimeHandler::getTime`处理。
 
 ### 功能级别处理异常
+如果我们在没有指定时间类型（type）的情况下调用相同的请求地址，例如/time，它将抛出异常。  
+Mono和Flux APIs内置了两个关键操作符，用于处理功能级别上的错误。
+
+#### 使用onErrorResume处理错误
+还可以使用onErrorResume处理错误，fallback方法定义如下：
+
+```java
+Mono<T> onErrorResume(Function<? super Throwable, ? extends Mono<? extends T>> fallback);
+```
+当出现错误时，我们使用fallback方法执行替代路径：
 
 ```java
 @Component
@@ -202,10 +216,19 @@ public class TimeHandler {
     }
 }
 ```
+捕获，包装和重新抛出异常，例如作为自定义业务异常
 
 
+#### 使用onErrorReturn处理错误
+每当发生错误时，我们可以使用`onErrorReturn()`返回静态默认值：
 
-
-
-
+```java
+    public Mono<ServerResponse> getDate(ServerRequest serverRequest) {
+        String timeType = serverRequest.queryParam("time").get();
+        return getTimeByType(timeType)
+                .onErrorReturn("Today is " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
+                .flatMap(s -> ServerResponse.ok()
+                        .contentType(MediaType.TEXT_PLAIN).syncBody(s));
+    }
+```
 
