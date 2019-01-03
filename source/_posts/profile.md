@@ -134,9 +134,9 @@ application.yml文件分为四部分，使用一组(---)来作为分隔符。第
 
 在IDE中也可以直接配置激活的profile。
 
-![entry](http://ovcjgn2x0.bkt.clouddn.com/profile%E5%85%A5%E5%8F%A3.jpg "idea配置")
+![entry](../../../../pic/profile%E5%85%A5%E5%8F%A3.jpg "idea配置")
 
-![profile](http://ovcjgn2x0.bkt.clouddn.com/configprofiles.jpg "idea配置profile")
+![profile](../../../../pic/configprofiles.jpg "idea配置profile")
 
 ## 3. config server的配置
 这节讲下与Spring cloud config的结合使用。既然使用了config server，动态配置这块基本就由配置服务器完成了。配置服务器中对该服务指定多个profile。config Server中的配置优先于本地配置，当服务启动时，根据激活的profile，去配置服务器拉取其对应的配置。
@@ -148,7 +148,7 @@ spring:
   profiles:
     active: ${ACTIVE_PROFILE:dev}
 ```
-![startup](http://ovcjgn2x0.bkt.clouddn.com/configstartup.jpg "容器启动截图")
+![startup](../../../../pic/configstartup.jpg "容器启动截图")
 
 从容器的启动截图来看，指定了`docker run -d -e  ACTIVE_PROFILE=exp ...`后，active profile 变味了exp，并且从config server中拉取对应的是gatewayserver的exp配置。
 
