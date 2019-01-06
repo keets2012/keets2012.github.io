@@ -1,14 +1,14 @@
 ---
-title: Hystrix断路器在微服务网关中的应用（Spring Cloud Gateway）
+title: Spring Boot 2 Webflux的全局异常处理
 categories: 微服务
 tags:
-  - 微服务
-  - gateway
+  - WebFlux
+  - Spring
+img: 'http://image.blueskykong.com/IMG_20180708_092949.jpg'
 abbrlink: 56417
-img: http://image.blueskykong.com/IMG_20180708_093833.jpg
-date: 2018-12-11 00:00:00
+date: 2018-12-18 00:00:00
 ---
-# Spring Boot 2 Webflux的全局异常处理
+
 本文首先将会回顾Spring 5之前的SpringMVC异常处理机制，然后主要讲解Spring Boot 2 Webflux的全局异常处理机制。
 
 ## SpringMVC的异常处理
@@ -16,7 +16,7 @@ Spring 统一异常处理有 3 种方式，分别为：
 
 - 使用 `@ExceptionHandler` 注解
 - 实现 `HandlerExceptionResolver` 接口
-- 使用 `@controlleradvice` 注解
+- 使用 `@Controlleradvice` 注解
 
 ### 使用`@ExceptionHandler`注解
 用于局部方法捕获，与抛出异常的方法处于同一个Controller类：
@@ -41,11 +41,11 @@ public class BuzController {
 如上的代码实现，针对`BuzController`抛出的`NullPointerException`异常，将会捕获局部异常，返回指定的内容。
 
 ### 实现`HandlerExceptionResolver`接口
-通过实现`HandlerExceptionResolver`接口，定义全局异常：
+通过实现`HandlerExceptionResolver`接口，这里我们通过继承`SimpleMappingExceptionResolver`实现类（`HandlerExceptionResolver`实现，允许将异常类名称映射到视图名称，既可以是一组给定的handlers处理程序，也可以是`DispatcherServlet`中的所有handlers）定义全局异常：
 
 ```java
 @Component
-public class CustomMvcExceptionHandler implements HandlerExceptionResolver {
+public class CustomMvcExceptionHandler extends SimpleMappingExceptionResolver {
 
     private ObjectMapper objectMapper;
 
@@ -146,7 +146,7 @@ Controller定义对Request的处理逻辑的方式，主要有方面：
 @Component
 public class TimeHandler {
     public Mono<ServerResponse> getTime(ServerRequest serverRequest) {
-        String timeType = serverRequest.queryParam("type").get();    
+        String timeType = serverRequest.queryParam("type").get();
         //return ...
     }
 }
@@ -180,7 +180,7 @@ public class RouterConfig {
 可以看到访问/time的GET请求，将会由`TimeHandler::getTime`处理。
 
 ### 功能级别处理异常
-如果我们在没有指定时间类型（type）的情况下调用相同的请求地址，例如/time，它将抛出异常。  
+如果我们在没有指定时间类型（type）的情况下调用相同的请求地址，例如/time，它将抛出异常。
 Mono和Flux APIs内置了两个关键操作符，用于处理功能级别上的错误。
 
 #### 使用onErrorResume处理错误
@@ -216,8 +216,17 @@ public class TimeHandler {
     }
 }
 ```
-捕获，包装和重新抛出异常，例如作为自定义业务异常
+在如上的实现中，每当`getTimeByType()`抛出异常时，将会执行我们定义的`fallback`方法。除此之外，我们还可以捕获、包装和重新抛出异常，例如作为自定义业务异常：
 
+```java
+    public Mono<ServerResponse> getTime(ServerRequest serverRequest) {
+        String timeType = serverRequest.queryParam("time").orElse("Now");
+        return ServerResponse.ok()
+                .body(getTimeByType(timeType)
+                        .onErrorResume(e -> Mono.error(new ServerException(new ErrorCode(HttpStatus.BAD_REQUEST.value(),
+                                "timeType is required", e.getMessage())))), String.class);
+    }
+```
 
 #### 使用onErrorReturn处理错误
 每当发生错误时，我们可以使用`onErrorReturn()`返回静态默认值：
@@ -231,4 +240,82 @@ public class TimeHandler {
                         .contentType(MediaType.TEXT_PLAIN).syncBody(s));
     }
 ```
+
+### 全局异常处理
+如上的配置是在方法的级别处理异常，如同对注解的Controller全局异常处理一样，WebFlux的函数式开发模式也可以进行全局异常处理。要做到这一点，我们只需要自定义全局错误响应属性，并且实现全局错误处理逻辑。
+
+我们的处理程序抛出的异常将自动转换为HTTP状态和JSON错误正文。要自定义这些，我们可以简单地扩展`DefaultErrorAttributes`类并覆盖其`getErrorAttributes()`方法：
+
+```java
+@Component
+public class GlobalErrorAttributes extends DefaultErrorAttributes {
+
+    public GlobalErrorAttributes() {
+        super(false);
+    }
+
+    @Override
+    public Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
+        return assembleError(request);
+    }
+
+    private Map<String, Object> assembleError(ServerRequest request) {
+        Map<String, Object> errorAttributes = new LinkedHashMap<>();
+        Throwable error = getError(request);
+        if (error instanceof ServerException) {
+            errorAttributes.put("code", ((ServerException) error).getCode().getCode());
+            errorAttributes.put("data", error.getMessage());
+        } else {
+            errorAttributes.put("code", HttpStatus.INTERNAL_SERVER_ERROR);
+            errorAttributes.put("data", "INTERNAL SERVER ERROR");
+        }
+        return errorAttributes;
+    }
+    //...有省略
+}
+```
+如上的实现中，我们对`ServerException`进行了特别处理，根据传入的`ErrorCode`对象构造对应的响应。
+
+接下来，让我们实现全局错误处理程序。为此，Spring提供了一个方便的`AbstractErrorWebExceptionHandler`类，供我们在处理全局错误时进行扩展和实现：
+
+```java
+@Component
+@Order(-2)
+public class GlobalErrorWebExceptionHandler extends AbstractErrorWebExceptionHandler {
+
+	//构造函数
+    @Override
+    protected RouterFunction<ServerResponse> getRoutingFunction(final ErrorAttributes errorAttributes) {
+        return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
+    }
+
+    private Mono<ServerResponse> renderErrorResponse(final ServerRequest request) {
+
+        final Map<String, Object> errorPropertiesMap = getErrorAttributes(request, true);
+
+        return ServerResponse.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(BodyInserters.fromObject(errorPropertiesMap));
+    }
+}
+```
+这里将全局错误处理程序的顺序设置为-2。这是为了让它比`@Order(-1)`注册的`DefaultErrorWebExceptionHandler`处理程序更高的优先级。
+
+该errorAttributes对象将是我们在网络异常处理程序的构造函数传递一个的精确副本。理想情况下，这应该是我们自定义的Error Attributes类。然后，我们清楚地表明我们想要将所有错误处理请求路由到renderErrorResponse()方法。最后，我们获取错误属性并将它们插入服务器响应主体中。
+
+然后，它会生成一个JSON响应，其中包含错误，HTTP状态和计算机客户端异常消息的详细信息。对于浏览器客户端，它有一个whitelabel错误处理程序，它以HTML格式呈现相同的数据。当然，这可以是定制的。
+
+## 小结
+本文首先讲了Spring 5之前的SpringMVC异常处理机制，SpringMVC统一异常处理有 3 种方式：使用 `@ExceptionHandler` 注解、实现 `HandlerExceptionResolver` 接口、使用 `@controlleradvice` 注解；然后通过WebFlux的函数式接口构建Web应用，讲解Spring Boot 2 Webflux的函数级别和全局异常处理机制（对于Spring WebMVC风格，基于注解的方式编写响应式的Web服务，仍然可以通过SpringMVC统一异常处理实现）。
+
+注：本文后半部分基本翻译自**https://www.baeldung.com/spring-webflux-errors**
+
+
+#### 订阅最新文章，欢迎关注我的公众号
+
+![微信公众号](https://user-gold-cdn.xitu.io/2018/12/14/167ab4f74e513f68?w=430&h=430&f=jpeg&s=24511)
+
+#### 参考
+1. [Handling Errors in Spring WebFlux](https://www.baeldung.com/spring-webflux-errors)
+2. [Spring WebFlux快速上手——响应式Spring的道法术器](https://blog.csdn.net/get_set/article/details/79480233)
 
