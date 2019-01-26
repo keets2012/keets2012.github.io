@@ -19,7 +19,7 @@ date: 2017-01-20 00:00:00
 - 合成部件（Composite）：定义有枝节点的行为，用来存储部件，实现在Component接口中的有关操作，如增加（Add）和删除（Remove）。
 
 组合模式UML图如下：
-![composite-pattern](http://ovcjgn2x0.bkt.clouddn.com/composite-pattern "组合模式UML图")
+![composite-pattern](../../../../pic/composite-pattern "组合模式UML图")
 ## 组合模式的实现
 下面我们使用组合模式构造一棵树，有根节点、叶子节点，并遍历这颗组合的树。
 ### Component

@@ -13,7 +13,7 @@ date: 2017-01-24 00:00:00
 在Java的Spring组件中，Bean的默认scope是singleton。
 
 ## 单例模式的结构
-![Component](http://ovcjgn2x0.bkt.clouddn.com/singleton-uml.png "单例模式的结构图")
+![Component](../../../../pic/singleton-uml.png "单例模式的结构图")
 从上图中可以看出，单例模式结构图中只包含了一个单例的角色。
 
 在单例类的内部实现只生成一个实例，同时它提供一个静态的GetInstance()方法，让客户可以访问它的唯一实例；

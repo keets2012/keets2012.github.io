@@ -14,7 +14,7 @@ date: 2017-03-20 00:00:00
 给定一种语言，定义他的文法的一种表示，并定义一个解释器，该解释器使用该表示来解释语言中句子。
 ## 解释器模式的结构
 
-![expression](http://ovcjgn2x0.bkt.clouddn.com/expression.png "解释器模式类图")
+![expression](../../../../pic/expression.png "解释器模式类图")
 主要的构成角色如下：
 
 - AbstractExpression：抽象解释器   

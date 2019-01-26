@@ -24,7 +24,7 @@ date: 2017-01-31 00:00:00
 ### 组成
 抽象工厂模式的类图如下所示：
 
-![](http://ovcibtedi.bkt.clouddn.com/abstract-factory.gif )
+![](../../../../pic/abstract-factory.gif )
 
 包含如下的角色：
 

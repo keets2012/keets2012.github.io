@@ -22,7 +22,7 @@ date: 2017-01-16 00:00:00
 
 桥接模式的UML图如下：
 
-![bridge-pattern](http://ovcjgn2x0.bkt.clouddn.com/bridge-pattern.png ""桥接模式UML图")
+![bridge-pattern](../../../../pic/bridge-pattern.png ""桥接模式UML图")
 
 
 ## 桥接模式的实现

@@ -25,7 +25,7 @@ date: 2017-01-29 00:00:00
 ### 类适配器
 通过继承来实现适配器功能。
 
-![](http://ovci1ihdy.bkt.clouddn.com/class-adapter.jpg)
+![](../../../../pic/class-adapter.jpg)
 Adapter与Adaptee是继承关系：
 
 - 用一个具体的Adapter类和Target进行匹配。结果是当我们想要一个匹配一个类以及所有它的子类时，类Adapter将不能胜任工作
@@ -35,7 +35,7 @@ Adapter与Adaptee是继承关系：
 ### 对象适配器
 适配器容纳一个它包裹的类的实例。在这种情况下，适配器调用被包裹对象的物理实体。
 
-![](http://ovci1ihdy.bkt.clouddn.com/object-adapter.jpg)
+![](../../../../pic/object-adapter.jpg)
 Adapter与Adaptee是委托关系：
 
 - 允许一个Adapter与多个Adaptee同时工作。Adapter也可以一次给所有的Adaptee添加功能
